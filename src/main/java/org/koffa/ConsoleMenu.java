@@ -29,18 +29,11 @@ public class ConsoleMenu {
                 4. Exit""");
         int choice = getInputInt("Enter choice:");
         switch (choice) {
-            case 1 -> {
-                upload(getInput("Enter file name:"));
-            }
-            case 2 -> {
-                download(getInput("Enter file name:"));
-            }
-            case 3 -> {
-                createFile(getInput("Enter file name:"), getInput("Enter file content:"));
-            }
-            case 4 -> {
-                running = false;
-            }
+            case 1 -> upload(getInput("Enter file name:"));
+            case 2 -> download(getInput("Enter file name:"));
+            case 3 -> createFile(getInput("Enter file name:"),
+                    getInput("Enter file content:"));
+            case 4 -> running = false;
             default -> System.out.println("Invalid input");
         }
     }
