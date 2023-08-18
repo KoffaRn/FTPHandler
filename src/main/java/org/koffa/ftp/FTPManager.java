@@ -70,12 +70,4 @@ public class FTPManager implements FileUploader, FileDownloader {
             throw new RuntimeException(e);
         }
     }
-    public void disconnect() {
-        try {
-            ftpClient.logout();
-            ftpClient.disconnect();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

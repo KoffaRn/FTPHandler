@@ -36,18 +36,22 @@ public class ConsoleMenu {
                 download(getInput("Enter file name:"));
             }
             case 3 -> {
-                String fileName = getInput("Enter file name:");
-                String content = getInput("Enter file content:");
-                try {
-                    new TextFileCreator(fileName, content);
-                    uploader.upload(fileName);
-                    System.out.println("File creation and upload successful");
-                } catch (RuntimeException e) {
-                    System.out.println("File creation failed: " + e.getMessage());
-                }
+                createFile(getInput("Enter file name:"), getInput("Enter file content:"));
             }
-            case 4 -> running = false;
+            case 4 -> {
+                running = false;
+            }
             default -> System.out.println("Invalid input");
+        }
+    }
+
+    private void createFile(String fileName, String content) {
+        try {
+            new TextFileCreator(fileName, content);
+            uploader.upload(fileName);
+            System.out.println("File creation and upload successful");
+        } catch (RuntimeException e) {
+            System.out.println("File creation failed: " + e.getMessage());
         }
     }
 
