@@ -14,12 +14,9 @@ public class ConsoleMenu {
 
     public ConsoleMenu() {
         while(running) {
-            start();
+            if(!connected) connectFtp();
+            if(connected) mainMenu();
         }
-    }
-    private void start() {
-        if(!connected) connect();
-        if(connected) mainMenu();
     }
 
     private void mainMenu() {
@@ -42,7 +39,7 @@ public class ConsoleMenu {
         }
     }
 
-    private void connect() {
+    private void connectFtp() {
         String host = getInput("Enter host:");
         int port = getInputInt("Enter port:");
         String username = getInput("Enter username:");

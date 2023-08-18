@@ -27,7 +27,7 @@ public class FTPManager implements FileUploader, FileDownloader {
     }
 
     @Override
-    public void download(String fileName) throws RuntimeException{
+    public void download(String fileName) throws RuntimeException {
 
     }
 
