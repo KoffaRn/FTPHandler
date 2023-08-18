@@ -22,31 +22,18 @@ public class ConsoleMenu {
     }
 
     private void mainMenu() {
-        System.out.println("1. Upload file\n" +
-                "2. Download and display file\n" +
-                "3. Create and upload new text file\n" +
-                "4. Exit");
+        System.out.println("""
+                1. Upload file
+                2. Download and display file
+                3. Create and upload new text file
+                4. Exit""");
         int choice = getInputInt("Enter choice:");
         switch (choice) {
             case 1 -> {
-                String fileName = getInput("Enter file name:");
-                try {
-                    uploader.upload(fileName);
-                    System.out.println("Upload successful");
-                } catch (RuntimeException e) {
-                    System.out.println("Upload failed: " + e.getMessage());
-                }
+                upload(getInput("Enter file name:"));
             }
             case 2 -> {
-                String fileName = getInput("Enter file name:");
-                try {
-                    downloader.download(fileName);
-                    displayFile(fileName);
-                    System.out.println("Download successful");
-                }
-                catch (RuntimeException e) {
-                    System.out.println("Download failed: " + e.getMessage());
-                }
+                download(getInput("Enter file name:"));
             }
             case 3 -> {
                 String fileName = getInput("Enter file name:");
@@ -61,6 +48,26 @@ public class ConsoleMenu {
             }
             case 4 -> running = false;
             default -> System.out.println("Invalid input");
+        }
+    }
+
+    private void download(String fileName) {
+        try {
+            downloader.download(fileName);
+            displayFile(fileName);
+            System.out.println("Download successful");
+        }
+        catch (RuntimeException e) {
+            System.out.println("Download failed: " + e.getMessage());
+        }
+    }
+
+    private void upload(String fileName) {
+        try {
+            uploader.upload(fileName);
+            System.out.println("Upload successful");
+        } catch (RuntimeException e) {
+            System.out.println("Upload failed: " + e.getMessage());
         }
     }
 
@@ -81,8 +88,9 @@ public class ConsoleMenu {
         String username = getInput("Enter username:");
         String password = getInput("Enter password:");
         try{
-            uploader = new FTPManager(host, port, username, password);
-            downloader = (FileDownloader) uploader;
+            FTPManager ftp = new FTPManager(host, port, username, password);
+            uploader = ftp;
+            downloader = ftp;
             connected = true;
             System.out.println("Connection successful");
         } catch (RuntimeException e) {

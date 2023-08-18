@@ -42,7 +42,7 @@ public class FTPManager implements FileUploader, FileDownloader {
         try (InputStream inputStream = ftpClient.retrieveFileStream(fileName)) {
             try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
                 byte[] bytesArray = new byte[4096];
-                int bytesRead = -1;
+                int bytesRead;
                 while ((bytesRead = inputStream.read(bytesArray)) != -1) {
                     outputStream.write(bytesArray, 0, bytesRead);
                 }
@@ -66,6 +66,14 @@ public class FTPManager implements FileUploader, FileDownloader {
             ftpClient.connect(host, port);
             ftpClient.login(username, password);
             return ftpClient;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void disconnect() {
+        try {
+            ftpClient.logout();
+            ftpClient.disconnect();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
