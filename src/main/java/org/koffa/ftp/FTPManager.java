@@ -1,5 +1,6 @@
 package org.koffa.ftp;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.koffa.interfaces.FileDownloader;
 import org.koffa.interfaces.FileUploader;
@@ -54,6 +55,7 @@ public class FTPManager implements FileUploader, FileDownloader {
     public void upload(String fileName) throws RuntimeException {
         try {
             FileInputStream inputStream = new FileInputStream(fileName);
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.storeFile(fileName, inputStream);
             inputStream.close();
         } catch (IOException e) {
