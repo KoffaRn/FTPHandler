@@ -1,29 +1,38 @@
 package org.koffa.ftp;
 
 import org.apache.commons.net.ftp.FTPClient;
-
+import org.koffa.interfaces.FileDownloader;
+import org.koffa.interfaces.FileUploader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class FTPManager {
+public class FTPManager implements FileUploader, FileDownloader {
     String host;
     int port;
     String username;
     String password;
+    FTPClient ftpClient;
 
-    public FTPManager(String host, int port, String username, String password) {
+    public FTPManager(String host, int port, String username, String password) throws RuntimeException {
         this.host = host;
         this.port = port;
         this.username = username;
         this.password = password;
+        try {
+            this.ftpClient = connect();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public void downloadFile(String fileName) {
+
+    @Override
+    public void download(String fileName) throws RuntimeException{
 
     }
 
-    public void uploadFile(String fileName) {
-        FTPClient ftpClient = connect();
+    @Override
+    public void upload(String fileName) throws RuntimeException {
         try {
             FileInputStream inputStream = new FileInputStream(fileName);
             ftpClient.changeWorkingDirectory("/upload");
@@ -32,7 +41,6 @@ public class FTPManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-
             disconnect(ftpClient);
         }
     }
